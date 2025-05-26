@@ -1,0 +1,30 @@
+.blog-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.blog-detail-container h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.blog-detail-container p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.loading-message {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #777;
+}

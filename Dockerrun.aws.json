@@ -1,0 +1,27 @@
+{
+  "AWSEBDockerrunVersion": 3,
+  "containerDefinitions": [
+    {
+      "name": "backend",
+      "image": "usamaumar465/bloggingwebsite-backend:latest",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 5000
+        }
+      ]
+    },
+    {
+      "name": "frontend",
+      "image": "usamaumar465/bloggingwebsite-frontend:latest",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 3000
+        }
+      ]
+    }
+  ]
+}
