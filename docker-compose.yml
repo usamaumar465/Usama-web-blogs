@@ -1,32 +1,12 @@
-version: "3.8"
+version: '3'
 services:
-  redis:
-    image: redis:latest
+  frontend:
+    image: usamaumar465/bloggingwebsite-frontend:latest
     ports:
-      - "6379:6379"
-    networks:
-      - app-network
-
+      - "80:80" 
   backend:
     image: usamaumar465/bloggingwebsite-backend:latest
     ports:
       - "5000:5000"
-    depends_on:
-      - redis
     environment:
-      - REDIS_URL=redis://redis:6379
-    networks:
-      - app-network
-
-  frontend:
-    image: usamaumar465/bloggingwebsite-frontend:latest
-    ports:
-      - "80:5173"
-    environment:
-      - VITE_BACKEND_URL=http://backend:5000
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+      - NODE_ENV=production

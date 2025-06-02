@@ -1,17 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const { createClient } = require("redis");
 
 const app = express();
 const PORT = 5000;
-
-// Redis client setup
-const redisClient = createClient();
-
-redisClient.on("error", (err) => console.error("Redis error:", err));
-redisClient.connect().then(() => {
-  console.log("Connected to Redis");
-});
 
 // Middleware
 app.use(cors());
@@ -30,6 +21,9 @@ const topics = [
   { id: 2, name: "frontend" },
   { id: 3, name: "backend" },
 ];
+
+// In-memory user store (for demo only)
+const users = {};
 
 // Routes
 app.get("/api/topics", (req, res) => {
@@ -55,23 +49,22 @@ app.get("/api/blogs/:blogId", (req, res) => {
 // ----------- AUTHENTICATION ROUTES -----------
 
 // Signup
-app.post("/api/signup", async (req, res) => {
+app.post("/api/signup", (req, res) => {
   const { email, password } = req.body;
 
-  const existingUser = await redisClient.get(email);
-  if (existingUser) {
+  if (users[email]) {
     return res.status(400).json({ message: "User already exists" });
   }
 
-  await redisClient.set(email, password);
+  users[email] = password;
   res.status(201).json({ message: "Signup successful" });
 });
 
 // Login
-app.post("/api/login", async (req, res) => {
+app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
-  const storedPassword = await redisClient.get(email);
+  const storedPassword = users[email];
   if (!storedPassword) {
     return res.status(400).json({ message: "User not found" });
   }

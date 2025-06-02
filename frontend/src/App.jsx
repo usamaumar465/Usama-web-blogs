@@ -9,12 +9,9 @@ import Signup from "./pages/signup/signup";
 function App() {
   return (
     <Routes>
-      {/* Auth routes */}
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-       <Route path="/login" element={<Login />} />
-
-      {/* Main app routes */}
+      <Route path="/login" element={<Login />} />
       <Route path="/topics" element={<Topics />} />
       <Route path="/topics/:topicName" element={<BlogList />} />
       <Route path="/topics/:topicName/:blogId" element={<BlogDetail />} />
