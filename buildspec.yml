@@ -6,27 +6,42 @@ phases:
       nodejs: 18
     commands:
       - echo "Installing dependencies..."
-      # Use a clean installation approach
+      # Install frontend dependencies with full permissions
       - cd frontend
-      - npm ci --omit=dev
-      - npm rebuild
-      - cd ../backend
-      - npm ci --omit=dev
+      - npm install --unsafe-perm
+      - chmod -R 755 node_modules/
+      - cd ..
+      
+      # Install backend dependencies
+      - cd backend
+      - npm install
       - cd ..
 
   build:
     commands:
-      - echo "Building application..."
+      - echo "Building the application..."
       - cd frontend
-      - npx vite build
+      - echo "Running build with debug info:"
+      - npm config list
+      - node -v
+      - npm -v
+      - npx vite build --debug || { echo "Vite build failed"; ls -la node_modules/.bin; exit 1; }
       - cd ..
       - mkdir -p dist
 
   post_build:
     commands:
-      - cp -r frontend/dist dist/frontend
-      - cp -r backend dist/backend
+      - echo "Build completed on `date`"
+      - echo "Preparing artifacts..."
+      # Copy backend files
+      - mkdir -p dist/backend
+      - cp -r backend/. dist/backend/
+      # Remove unnecessary files
       - rm -rf dist/backend/node_modules
+      - rm -rf dist/backend/package-lock.json
+      # Copy frontend build output
+      - mkdir -p dist/frontend
+      - cp -r frontend/dist/. dist/frontend/
 
 artifacts:
   files:
