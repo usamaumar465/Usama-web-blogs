@@ -8,6 +8,6 @@ export default defineConfig({
       'web-app-env.eba-eav3wzq9.eu-north-1.elasticbeanstalk.com'
     ],
     host: true, // allow external access
-    port: 3000
+    port: 80
   }
 });
